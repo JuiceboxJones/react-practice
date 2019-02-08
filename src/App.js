@@ -1,25 +1,43 @@
 import React, { Component } from 'react';
+import './app.css';
 import List from './List';
-import Decision from './Desicion'
-import ListEntries from './ListEntries'
+import Decision from './Desicion';
+import ListEntries from './ListEntries';
+
 
 class App extends Component {
 
   state = {
-    options: [
-      'pizza', 
-      'fish', 
-      'steak', 
-      'pancakes'
-    ]};
+    options: []
+  };
+
+handleDelete = (e, optionsList) => {
+const options = this.state.options
+const toBeDeleted = (e.currentTarget, optionsList)
+const arrIndex = options.indexOf(toBeDeleted)
+delete options[arrIndex]
+this.setState({
+  options: options
+  
+})
+}
 
 
 generateChoices = () => {
     const NewOptionsList = this.state.options
-      .map((optionsList) => <li>{optionsList}</li>)
+      .map((optionsList) => <li>{optionsList}
+      <button onClick={e => this.handleDelete(e, optionsList)}>Delete</button>
+      </li>)
     console.log(NewOptionsList)
     return NewOptionsList
     };
+
+handleClearList = () => {
+  this.setState({
+    options: []
+  })
+
+}
 
 handleDesicion = () => {
     const options = this.state.options;
@@ -34,13 +52,26 @@ handleAddToList = (e) => {
 
   console.log(newItem)
   
-  if(options.map((item) => item === newItem)){
-    alert('Cant add multiples of the same item')
+  /*
+    options=[{name:"pizza",cost:5.00},{name:"hot dog",cost:1.99}]
+    let filteredOptions = options.filter(option=>option.name!==query);
+    if(filteredOptions.length !== options.length){
+      // already exists
+    }
+
+  */
+
+  if(options.indexOf(newItem)<0){ // ["red","green","blue"] .indexOf('red') -> 0, .indexOf('green)->1, .indexOf('purple')->-1
+
+    this.setState({
+      options: [newItem, ...options]
+    })
+    e.target.reset();
+
   } else {
-  this.setState({
-    options: [newItem, ...options]
-  })}
-  e.target.reset();
+    alert('already exists');
+    e.target.item.focus();
+  }
 }
 
   render() {
@@ -50,7 +81,9 @@ handleAddToList = (e) => {
         <h3>Let me make a desicion for you!</h3>
         <ListEntries handleAddToList = {this.handleAddToList}/>
         <Decision handleDesicion = {this.handleDesicion} />
-        <List options= {this.generateChoices()} />
+        <List 
+        options= {this.generateChoices()}
+        handleClearList= {this.handleClearList} />
       </div>
     );
   }
