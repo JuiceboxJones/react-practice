@@ -18,10 +18,10 @@ class List extends Component {
   render() {
     return (
       <div className="Options">
+        <button onClick={this.props.handleClearList}>Clear List</button>
         <ul>
         {this.props.options}
         </ul>
-        <button onClick={this.props.handleClearList}>Clear List</button>
       </div>
     );
   }

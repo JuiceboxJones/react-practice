@@ -15,7 +15,7 @@ handleDelete = (e, optionsList) => {
 const options = this.state.options
 const toBeDeleted = (e.currentTarget, optionsList)
 const arrIndex = options.indexOf(toBeDeleted)
-delete options[arrIndex]
+options.splice(arrIndex, 1)
 this.setState({
   options: options
   
@@ -61,7 +61,11 @@ handleAddToList = (e) => {
 
   */
 
-  if(options.indexOf(newItem)<0){ // ["red","green","blue"] .indexOf('red') -> 0, .indexOf('green)->1, .indexOf('purple')->-1
+  if(newItem === ''){
+    this.setState({
+      options: options
+    })
+  } else if(options.indexOf(newItem)<0){ // ["red","green","blue"] .indexOf('red') -> 0, .indexOf('green)->1, .indexOf('purple')->-1
 
     this.setState({
       options: [newItem, ...options]
@@ -79,11 +83,11 @@ handleAddToList = (e) => {
       <div className="App">
         <h1>Be Decisive App</h1>
         <h3>Let me make a desicion for you!</h3>
-        <ListEntries handleAddToList = {this.handleAddToList}/>
         <Decision handleDesicion = {this.handleDesicion} />
+        <ListEntries handleAddToList = {this.handleAddToList} />
         <List 
-        options= {this.generateChoices()}
-        handleClearList= {this.handleClearList} />
+        handleClearList= {this.handleClearList}
+        options= {this.generateChoices()} />
       </div>
     );
   }
